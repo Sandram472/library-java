@@ -1,6 +1,7 @@
 package co.com.uniremington.model;
 
-public class Book {
+public class
+Book {
     private String isbn;
     private String title;
     private String author;
