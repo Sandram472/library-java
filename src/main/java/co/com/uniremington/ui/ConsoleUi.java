@@ -1,6 +1,7 @@
 package co.com.uniremington.ui;
 
 import co.com.uniremington.model.Book;
+import co.com.uniremington.model.Loan;
 import co.com.uniremington.service.Library;
 
 import java.util.List;
@@ -157,16 +158,53 @@ public class ConsoleUi {
             scanner.nextLine();
             switch (option) {
                 case 1:
-                    // Lógica para registrar préstamo
+                    System.out.println("Registrar nuevo prestamo ");
+                    System.out.println("Ingrese ISBN ");
+                    String isbn = scanner.nextLine();
+                    System.out.println("Ingrese el nombre del prestatario ");
+                    String name = scanner.nextLine();
+                    Loan loanBook = this.library.borrowBook(isbn, name);
+                    if (loanBook != null) {
+                        System.out.println("Prestamo registrado exitosamente.");
+                        System.out.println(loanBook.toString());
+                    } else {
+                        System.out.println("Error al registrar el prestamo. ISBN No existe.");
+                    }
+                    System.out.println("presione enter para continuar...");
+                    scanner.nextLine();
                     break;
                 case 2:
-                    // Lógica para registrar devolución
+                    System.out.println("Registrar devolucion ");
+                    System.out.println("Ingrese ID prestamo ");
+                    String borrowIB = scanner.nextLine();
+                    boolean returned = this.library.returnBook(borrowIB);
+                    if (returned) {
+                        System.out.println("Libro devuelto exitosamente.");
+                    } else {
+                        System.out.println("Error al devolver el libro.");
+                    }
+                    System.out.println("presione enter para continuar...");
+                    scanner.nextLine();
                     break;
                 case 3:
-                    // Lógica para ver préstamos activos
+                    System.out.println("Prestamos activos ");
+                    List<Loan> activeLoans = this.library.getActiveLoans();
+                    for (Loan loan : activeLoans) {
+                        System.out.println(loan.toString());
+                        System.out.println("-------------------------\n");
+                    }
+                    System.out.println("presione enter para continuar...");
+                    scanner.nextLine();
                     break;
                 case 4:
-                    // Lógica para ver historial de préstamos
+                    System.out.println("Historial de prestamos ");
+                    List<Loan> historyLoans = this.library.getAllLoans();
+                    for (Loan loan : historyLoans) {
+                        System.out.println(loan.toString());
+                        System.out.println("-------------------------\n");
+                    }
+                    System.out.println("presione enter para continuar...");
+                    scanner.nextLine();
                     break;
                 case 5:
                     System.out.println("Regresar al menu principal.");
