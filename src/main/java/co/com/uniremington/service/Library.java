@@ -1,6 +1,7 @@
 package co.com.uniremington.service;
 
 import co.com.uniremington.model.Book;
+import co.com.uniremington.model.BookStatus;
 import co.com.uniremington.model.Loan;
 
 import java.util.ArrayList;
@@ -50,5 +51,65 @@ public class Library {
 
     public List<Book> getCatalog() {
         return this.bookList;
+    }
+
+    public List<Book> getAvailableBooks() {
+
+        List<Book> books = new ArrayList<>();
+
+        for (int i = 0; i < this.bookList.size(); i++) {
+            if (this.bookList.get(i).isAvailable()) {
+                books.add(this.bookList.get(i));
+            }
+        }
+        return books;
+    }
+
+    private String generateId(){
+        String id = String.format("P%03d", this.loanList.size() +1);
+        return id;
+    }
+
+    public Loan  borrowBook(String isbn, String name) {
+        Book book = this.findBookByIsbn(isbn);
+        if (book != null && book.isAvailable()){
+            Loan loan = new Loan(this.generateId(), book, name);
+            book.changeState(BookStatus.Loaned);
+            this.loanList.add(loan);
+            return loan;
+        }else {
+            return null;
+        }
+    }
+
+    public boolean returnBook(String borrowId){
+        Loan loan = null;
+        for (int i = 0; i < this.loanList.size(); i++){
+            if (Objects.equals(this.loanList.get(i).getId(),borrowId)){
+                loan = this.loanList.get(i);
+                break;
+            }
+        }
+        if (loan != null && loan.isReturned() == false){
+            loan.registerReturn();
+            loan.getBook().changeState(BookStatus.Available);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public List<Loan> getActiveLoans(){
+        List<Loan> loans = new ArrayList<>();
+        for (int i = 0; i < this.loanList.size(); i++){
+            if (this.loanList.get(i).isReturned() == false){
+                loans.add(this.loanList.get(i));
+            }
+        }
+        return loans;
+    }
+
+    public List<Loan> getAllLoans(){
+        return this.loanList;
     }
 }
