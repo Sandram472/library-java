@@ -15,6 +15,7 @@ public class ConsoleUi {
         this.library = new Library();
         this.scanner = new Scanner(System.in);
     }
+
     private void showMainMenu() {
         System.out.println("\n--- MENÚ PRINCIPAL ---");
         System.out.println("1. Libros");
@@ -45,9 +46,9 @@ public class ConsoleUi {
         System.out.print("Seleccione una opción: ");
     }
 
-    public void start(){
+    public void start() {
         int option = 0;
-        while (option != 4){
+        while (option != 4) {
             this.showMainMenu();
             option = scanner.nextInt();
             scanner.nextLine();
@@ -59,7 +60,12 @@ public class ConsoleUi {
                     this.handleMenuLoan();
                     break;
                 case 3:
-                    // Lógica para ver resumen
+                    int countBooks=this.library.getCatalog().size();
+                    int countLoans=this.library.getAllLoans().size();
+                    System.out.println("Libros en catalogo: "+countBooks);
+                    System.out.println("Prestamos totales: "+countLoans);
+                    System.out.println("presione enter para continuar...");
+                    scanner.nextLine();
                     break;
                 case 4:
                     System.out.println("Saliendo del sistema...");
@@ -124,6 +130,7 @@ public class ConsoleUi {
                     scanner.nextLine();
                     break;
                 case 4:
+                    System.out.println("Catalogo de libros");
                     List<Book> catalog = this.library.getCatalog();
                     for (Book book : catalog) {
                         System.out.println(book.toString());
@@ -133,6 +140,7 @@ public class ConsoleUi {
                     scanner.nextLine();
                     break;
                 case 5:
+                    System.out.println("Libros disponibles");
                     List<Book> booksAvailable = this.library.getAvailableBooks();
                     for (Book book : booksAvailable) {
                         System.out.println(book.toString());
@@ -150,7 +158,7 @@ public class ConsoleUi {
         }
     }
 
-    private void handleMenuLoan (){
+    private void handleMenuLoan() {
         int option = 0;
         while (option != 5) {
             this.showMenuLoan();

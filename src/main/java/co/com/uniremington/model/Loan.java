@@ -56,7 +56,7 @@ public class Loan {
     }
 
     public String toString(){
-        return "id " + this.id + "Book " + this.book.getTitle() + "nombre prestatario " + this.borrowerName + "fecha prestamo " + this.loanDate.toString();
+        return "Id: " + this.id + " Titulo: " + this.book.getTitle() + " Prestatario: " + this.borrowerName + " Fecha prestamo: " + this.loanDate.toString() + " Fecha vencimiento: "+this.dueDate + " Activo: "+!this.returned;
     }
     
 }
